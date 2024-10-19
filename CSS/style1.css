@@ -7,3 +7,8 @@
 .hidden {
   display: none;
 }/*# sourceMappingURL=style.css.map */
+
+#headicon {
+  font-size: 3rem; /* Change icon size */
+  color: #ffffff;  /* Change icon color */
+}

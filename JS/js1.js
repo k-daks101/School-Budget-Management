@@ -28,7 +28,7 @@ class CalorieTracker
   addMeal(meal)
   {
     this._meals.push(meal);
-    this._totalCalories += meal.calories;
+    this._totalCalories -= meal.calories;
     Storage.updateTotalCalories(this._totalCalories);
     Storage.saveMeal(meal);
     this._displayNewMeal(meal);
@@ -38,7 +38,7 @@ class CalorieTracker
   addWorkout(workout)
   {
     this._workouts.push(workout);
-    this._totalCalories -= workout.calories;
+    this._totalCalories += workout.calories;
     Storage.updateTotalCalories(this._totalCalories);
     Storage.saveWorkout(workout);
     this._displayNewWorkout(workout);
@@ -52,7 +52,7 @@ class CalorieTracker
     if(index !== -1)
     {
       const meal = this._meals[index];
-      this._totalCalories -= meal.calories;
+      this._totalCalories += meal.calories;
       Storage.updateTotalCalories(this._totalCalories);
       this._meals.splice(index, 1);
       Storage.removeMeal(id);
@@ -69,7 +69,7 @@ class CalorieTracker
     if(index !== -1)
     {
       const workout = this._workouts[index];
-      this._totalCalories += workout.calories;
+      this._totalCalories -= workout.calories;
       Storage.updateTotalCalories(this._totalCalories);
       Storage.removeWorkout(id)
       this._workouts.splice(index, 1);
@@ -144,7 +144,7 @@ class CalorieTracker
 
     const progressEl = document.getElementById('calorie-progress');
 
-    const remaining = this._calorieLimit - this._totalCalories;
+    const remaining = this._calorieLimit + this._totalCalories;
 
     caloriesRemainingEl.innerHTML = remaining;
 
@@ -194,7 +194,7 @@ class CalorieTracker
                   ${meal.calories}
                  </div>
                  <button class="delete btn btn-danger btn-sm mx-2">
-                   <i class="fa-solid fa-xmark"></i>
+                   <i class="material-icons">delete</i>
                  </button>
                </div>
              </div>
@@ -218,7 +218,7 @@ class CalorieTracker
                   ${Workout.calories}
                  </div>
                  <button class="delete btn btn-danger btn-sm mx-2">
-                   <i class="fa-solid fa-xmark"></i>
+                   <i class="material-icons">delete</i>
                  </button>
                </div>
              </div>
