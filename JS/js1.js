@@ -173,7 +173,7 @@ class CalorieTracker
 
   {
     const progressEl = document.getElementById('calorie-progress');
-    const percentage = (this._totalCalories / this._calorieLimit) * 100;
+    const percentage = ((-this._totalCalories) / this._calorieLimit) * 100;
     const width = Math.min(percentage, 100);
     progressEl.style.width = `${width}%`
   }
