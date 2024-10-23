@@ -2,8 +2,11 @@
 *::after,
 *::before {
   box-sizing: border-box;
-  font-family: cursive;
-}
+  font-family: "Great Vibes", cursive;
+  font-weight: 550;
+  font-style: normal;
+  font-size: 1.1rem;
+  }
 
 .hidden {
   display: none;
