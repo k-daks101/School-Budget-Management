@@ -1,78 +1,78 @@
-class CalorieTracker
+class BudgetTracker
 {
   
   constructor()
   {
-    this._calorieLimit = Storage.getCalorieLimit(1000);
-    this._totalCalories = Storage.getTotalCalories(0);
-    this._meals = Storage.getMeals();
-    this._workouts = Storage.getWorkouts();
+    this._budgetLimit = Storage.getBudgetLimit(1000);
+    this._totalBudget = Storage.getTotalBudget(0);
+    this._expenditures = Storage.getExpenditures();
+    this._incomes = Storage.getIncomes();
     
     //constructor runs immediately when you instantiate the class//
 
-    this._displayCaloriesLimit();
-    this._displayCaloriesTotal();
-    this._displayCaloriesConsumed();
-    this._displayCaloriesBurned();
-    this._displayCaloriesRemaining();
-    this._displayCaloriesProgress();
+    this._displayBudgetLimit();
+    this._displayBudgetTotal();
+    this._displayBudgetSpent();
+    this._displayBudgetGained();
+    this._displayBudgetBalance();
+    this._displayBudgetProgress();
 
 
-    document.getElementById('limit').value = this._calorieLimit;
+    document.getElementById('limit').value = this._budgetLimit;
 
   }
 
 
   //these are public methods//
   
-  addMeal(meal)
+  addExpenditure(expenditure)
   {
-    this._meals.push(meal);
-    this._totalCalories -= meal.calories;
-    Storage.updateTotalCalories(this._totalCalories);
-    Storage.saveMeal(meal);
-    this._displayNewMeal(meal);
+    this._expenditures.push(expenditure);
+    this._totalBudget -= expenditure.amount;
+    Storage.updateTotalBudget(this._totalBudget);
+    Storage.saveExpenditure(expenditure);
+    this._displayNewExpenditure(expenditure);
     this._render()
   }
 
-  addWorkout(workout)
+  addIncome(income)
   {
-    this._workouts.push(workout);
-    this._totalCalories += workout.calories;
-    Storage.updateTotalCalories(this._totalCalories);
-    Storage.saveWorkout(workout);
-    this._displayNewWorkout(workout);
+    this._incomes.push(income);
+    this._totalBudget += income.amount;
+    Storage.updateTotalBudget(this._totalBudget);
+    Storage.saveIncome(income);
+    this._displayNewIncome(income);
     this._render();
   }
 
-  removeMeal(id)
+  removeExpenditure(id)
   {
-    const index = this._meals.findIndex((meal) => meal.id === id);
+    const index = this._expenditures.findIndex((expenditure) => expenditure.id === id);
 
     if(index !== -1)
     {
-      const meal = this._meals[index];
-      this._totalCalories += meal.calories;
-      Storage.updateTotalCalories(this._totalCalories);
-      this._meals.splice(index, 1);
-      Storage.removeMeal(id);
+      const expenditure = this._expenditures[index];
+      this._totalBudget += expenditure.amount;
+      Storage.updateTotalBudget(this._totalBudget);
+      this._expenditures.splice(index, 1);
+      Storage.removeExpenditure(id);
       this._render()
     }
   }
 
  
 
-  removeWorkout(id)
+  removeIncome(id)
   {
-    const index = this._workouts.findIndex((workout) => workout.id === id);
+    const index = this._incomes.findIndex((income) => income.id === id);
 
     if(index !== -1)
     {
-      const workout = this._workouts[index];
-      this._totalCalories -= workout.calories;
-      Storage.updateTotalCalories(this._totalCalories);
-      Storage.removeWorkout(id)
-      this._workouts.splice(index, 1);
+      const income = this._incomes[index];
+      this._totalBudget -= income.amount;
+      Storage.updateTotalBudget(this._totalBudget);
+      Storage.removeIncome(id)
+      this._incomes.splice(index, 1);
       this._render()
     }
   }
@@ -80,78 +80,78 @@ class CalorieTracker
 
   reset()
   {
-    this._totalCalories = 0;
-    this.meals = [];
-    this.workouts = [];
+    this._totalBudget = 0;
+    this.expenditures = [];
+    this.incomes = [];
     Storage.clearAll();
     this._render();
   }
 
-  setLimit(calorieLimit)
+  setLimit(budgetLimit)
   {
-    this._calorieLimit = calorieLimit;
-    Storage.setCalorieLimit(calorieLimit)
-    this._displayCaloriesLimit();
+    this._budgetLimit = budgetLimit;
+    Storage.setBudgetLimit(budgetLimit)
+    this._displayBudgetLimit();
     this._render();
   }
 
 
   loadItems()
   {
-    this._meals.forEach(meal => this._displayNewMeal(meal));
-    this._workouts.forEach(workout => this._displayNewWorkout(workout));
+    this._expenditures.forEach(expenditure => this._displayNewExpenditure(expenditure));
+    this._incomes.forEach(income => this._displayNewIncome(income));
   }
 
 
   //private methods//
 
-  _displayCaloriesTotal()
+  _displayBudgetTotal()
   {
-    const totalCaloriesEl = document.getElementById('calories-total') //el for element
-    totalCaloriesEl.innerHTML = this._totalCalories;
+    const totalBudgetEl = document.getElementById('budget-total') //el for element
+    totalBudgetEl.innerHTML = this._totalBudget;
   }
 
 
-  _displayCaloriesLimit()
+  _displayBudgetLimit()
   {
-    const calorieLimitEl = document.getElementById('calories-limit') //el for element
-    calorieLimitEl.innerHTML = this._calorieLimit;
+    const budgetLimitEl = document.getElementById('budget-limit') //el for element
+    budgetLimitEl.innerHTML = this._budgetLimit;
   }
 
-  _displayCaloriesConsumed()
+  _displayBudgetSpent()
   {
-    const caloriesConsumedEl = document.getElementById('calories-consumed');
+    const budgetSpentEl = document.getElementById('budget-spent');
 
-    const consumed = this._meals.reduce((total,meal) => total + meal.calories, 0);
+    const spent = this._expenditures.reduce((total,expenditure) => total + expenditure.amount, 0);
 
-    caloriesConsumedEl.innerHTML = consumed;
-  }
-
-
-  _displayCaloriesBurned()
-  {
-    const caloriesBurnedEl = document.getElementById('calories-burned');
-
-    const burned = this._workouts.reduce((total,workout) => total + workout.calories, 0);
-
-    caloriesBurnedEl.innerHTML = burned;
+    budgetSpentEl.innerHTML = spent;
   }
 
 
-  _displayCaloriesRemaining()
+  _displayBudgetGained()
   {
-    const caloriesRemainingEl = document.getElementById('calories-remaining');
+    const budgetGainedEl = document.getElementById('budget-gained');
 
-    const progressEl = document.getElementById('calorie-progress');
+    const gained = this._incomes.reduce((total,income) => total + income.amount, 0);
 
-    const remaining = this._calorieLimit + this._totalCalories;
+    budgetGainedEl.innerHTML = gained;
+  }
 
-    caloriesRemainingEl.innerHTML = remaining;
 
-    if(remaining <= 0)
+  _displayBudgetBalance()
+  {
+    const budgetBalanceEl = document.getElementById('budget-balance');
+
+    const progressEl = document.getElementById('budget-progress');
+
+    const balance = this._budgetLimit + this._totalBudget;
+
+    budgetBalanceEl.innerHTML = balance;
+
+    if(balance <= 0)
     {
-      caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-light');//trying to access the parent elements based on the html
-      caloriesRemainingEl.parentElement.parentElement.classList.add('bg-danger');
+      budgetBalanceEl.parentElement.parentElement.classList.remove('bg-light');//trying to access the parent elements based on the html
+      budgetBalanceEl.parentElement.parentElement.classList.add('bg-danger');
 
 
       progressEl.classList.add('bg-danger');
@@ -160,8 +160,8 @@ class CalorieTracker
     }
     else
     {
-      caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-danger');
-      caloriesRemainingEl.parentElement.parentElement.classList.add('bg-light');
+      budgetBalanceEl.parentElement.parentElement.classList.remove('bg-danger');
+      budgetBalanceEl.parentElement.parentElement.classList.add('bg-light');
 
       progressEl.classList.remove('bg-danger');
       progressEl.classList.add('bg-success');
@@ -169,29 +169,29 @@ class CalorieTracker
   }
 
 
-  _displayCaloriesProgress()
+  _displayBudgetProgress()
 
   {
-    const progressEl = document.getElementById('calorie-progress');
-    const percentage = ((-this._totalCalories) / this._calorieLimit) * 100;
+    const progressEl = document.getElementById('budget-progress');
+    const percentage = ((-this._totalBudget) / this._budgetLimit) * 100;
     const width = Math.min(percentage, 100);
     progressEl.style.width = `${width}%`
   }
 
-  _displayNewMeal(meal)
+  _displayNewExpenditure(expenditure)
   {
-    const mealsEl = document.getElementById('meal-items');
-    const mealEl = document.createElement('div');
-    mealEl.classList.add('card', 'my-2' );
-    mealEl.setAttribute('data-id', meal.id);
-    mealEl.innerHTML = `
+    const expendituresEl = document.getElementById('expenditure-items');
+    const expenditureEl = document.createElement('div');
+    expenditureEl.classList.add('card', 'my-2' );
+    expenditureEl.setAttribute('data-id', expenditure.id);
+    expenditureEl.innerHTML = `
     <div class="card-body">
                <div class="d-flex align-items-center justify-content-between">
-                 <h4 class="mx-1">${meal.name}</h4>
+                 <h4 class="mx-1">${expenditure.name}</h4>
                  <div
                    class="fs-1 bg-primary text-white text-center rounded-2 px-2 px-sm-5"
                  >
-                  ${meal.calories}
+                  ${expenditure.amount}
                  </div>
                  <button class="delete btn btn-danger btn-sm mx-2">
                    <i class="material-icons">delete</i>
@@ -199,23 +199,23 @@ class CalorieTracker
                </div>
              </div>
    `;
-    mealsEl.appendChild(mealEl);
+    expendituresEl.appendChild(expenditureEl);
   }
 
-  _displayNewWorkout(Workout)
+  _displayNewIncome(income)
   {
-    const workoutsEl = document.getElementById('workout-items');
-    const workoutEl = document.createElement('div');
-    workoutEl.classList.add('card', 'my-2' );
-    workoutEl.setAttribute('data-id', Workout.id);
-    workoutEl.innerHTML = `
+    const incomesEl = document.getElementById('income-items');
+    const incomeEl = document.createElement('div');
+    incomeEl.classList.add('card', 'my-2' );
+    incomeEl.setAttribute('data-id', income.id);
+    incomeEl.innerHTML = `
     <div class="card-body">
                <div class="d-flex align-items-center justify-content-between">
-                 <h4 class="mx-1">${Workout.name}</h4>
+                 <h4 class="mx-1">${income.name}</h4>
                  <div
                    class="fs-1 bg-secondary text-white text-center rounded-2 px-2 px-sm-5"
                  >
-                  ${Workout.calories}
+                  ${income.amount}
                  </div>
                  <button class="delete btn btn-danger btn-sm mx-2">
                    <i class="material-icons">delete</i>
@@ -223,38 +223,38 @@ class CalorieTracker
                </div>
              </div>
    `;
-    workoutsEl.appendChild(workoutEl);
+    incomesEl.appendChild(incomeEl);
   }
   _render() 
   {
-    this._displayCaloriesTotal();
-    this._displayCaloriesConsumed();
-    this._displayCaloriesBurned();
-    this._displayCaloriesRemaining();
-    this._displayCaloriesProgress();
+    this._displayBudgetTotal();
+    this._displayBudgetSpent();
+    this._displayBudgetGained();
+    this._displayBudgetBalance();
+    this._displayBudgetProgress();
   }
 }
 
-  class Meal 
+  class Expenditure 
 { 
-    constructor(name,calories)
+    constructor(name,amount)
 
     {
       this.id = Math.random().toString(16).slice(2);
       this.name = name;
-      this.calories = calories;
+      this.amount = amount;
     }  
     
 }
 
-  class Workout 
+  class Income 
 { 
-    constructor(name,calories)
+    constructor(name,amount)
 
     {
       this.id = Math.random().toString(16).slice(2);
       this.name = name;
-      this.calories = calories;
+      this.amount = amount;
     }  
 
 
@@ -263,122 +263,122 @@ class CalorieTracker
 class Storage
 {
   //not static cause it is not one entity
-  static getCalorieLimit(defaultLimit = 2000)
+  static getBudgetLimit(defaultLimit = 2000)
   {
-    let calorieLimit;
-    if(localStorage.getItem('calorieLimit') === null)
+    let budgetLimit;
+    if(localStorage.getItem('budgetLimit') === null)
     {
-      calorieLimit = defaultLimit;
+      budgetLimit = defaultLimit;
     }
     else
     {
-      calorieLimit = +localStorage.getItem('calorieLimit');
+      budgetLimit = +localStorage.getItem('budgetLimit');
     }
-    return calorieLimit;
+    return budgetLimit;
   }
-  static setCalorieLimit(calorieLimit)
+  static setBudgetLimit(budgetLimit)
   {
-    localStorage.setItem('calorieLimit', calorieLimit);
+    localStorage.setItem('budgetLimit', budgetLimit);
   }
 
-  static getTotalCalories(defaultCalories = 0)
+  static getTotalBudget(defaultBudget = 0)
   {
-    let totalCalories;
-    if(localStorage.getItem('totalCalories') === null)
+    let totalBudget;
+    if(localStorage.getItem('totalBudget') === null)
     {
-      totalCalories = defaultCalories;
-    }
-    else
-    {
-      totalCalories = +localStorage.getItem('totalCalories');
-    }
-    return totalCalories;
-  }
-
-  static updateTotalCalories(calories)
-  {
-    localStorage.setItem('totalCalories',calories)
-  }
-
-  static getMeals()
-  {
-    let meals;
-    if(localStorage.getItem('meals') === null)
-    {
-      meals = [];
+      totalBudget = defaultBudget;
     }
     else
     {
-      meals = JSON.parse(localStorage.getItem('meals'));
+      totalBudget = +localStorage.getItem('totalBudget');
     }
-    return meals;
+    return totalBudget;
   }
 
-
-  static saveMeal(meal)
+  static updateTotalBudget(budget)
   {
-    const meals = Storage.getMeals();
-    meals.push(meal);
-    localStorage.setItem('meals', JSON.stringify(meals));
+    localStorage.setItem('totalBudget',budget)
   }
 
-  static removeMeal(id)
+  static getExpenditures()
   {
-    const meals = Storage.getMeals();
-    meals.forEach((meal, index) =>
+    let expenditures;
+    if(localStorage.getItem('expenditures') === null)
     {
-      if (meal.id=== id)
+      expenditures = [];
+    }
+    else
+    {
+      expenditures = JSON.parse(localStorage.getItem('expenditures'));
+    }
+    return expenditures;
+  }
+
+
+  static saveExpenditure(expenditure)
+  {
+    const expenditures = Storage.getExpenditures();
+    expenditures.push(expenditure);
+    localStorage.setItem('expenditures', JSON.stringify(expenditures));
+  }
+
+  static removeExpenditure(id)
+  {
+    const expenditures = Storage.getExpenditures();
+    expenditures.forEach((expenditure, index) =>
+    {
+      if (expenditure.id=== id)
       {
-        meals.splice(index, 1)
+        expenditures.splice(index, 1)
       }
     });
 
     //we are going outside the forEach to save to the local storage without that meal
-    localStorage.setItem('meals', JSON.stringify(meals))
+    localStorage.setItem('expenditures', JSON.stringify(expenditures))
   }
 
-  static getWorkouts()
+  static getIncomes()
   {
-    let workouts;
-    if(localStorage.getItem('workouts') === null)
+    let incomes;
+    if(localStorage.getItem('incomes') === null)
     {
-      workouts = [];
+      incomes = [];
     }
     else
     {
-      workouts = JSON.parse(localStorage.getItem('workouts'));
+      incomes = JSON.parse(localStorage.getItem('incomes'));
     }
-    return workouts;
+    return incomes;
   }
 
-  static saveWorkout(workout)
+  static saveIncome(income)
   {
-    const workouts = Storage.getWorkouts();
-    workouts.push(workout);
-    localStorage.setItem('workouts', JSON.stringify(workouts));
+    const incomes = Storage.getIncomes();
+    incomes.push(income);
+    localStorage.setItem('incomes', JSON.stringify(incomes));
   }
 
-  static  removeWorkout(id)
+  static  removeIncome(id)
   {
-    const Workouts = Storage.getWorkouts();
-    Workouts.forEach((Workout, index) =>
+    const incomes = Storage.getIncomes();
+    incomes.forEach((income, index) =>
     {
-      if (Workout.id=== id)
+      if (income.id=== id)
       {
-        Workouts.splice(index, 1)
+        incomes.splice(index, 1)
       }
     });
 
     //we are going outside the forEach to save to the local storage without that Workout
-    localStorage.setItem('workouts', JSON.stringify(Workouts));
+    localStorage.setItem('incomes', JSON.stringify(incomes));
   }
 
   static clearAll()
   {
     
-    localStorage.removeItem('totalCalories');
-    localStorage.removeItem('meals');
-    localStorage.removeItem('workouts');
+    localStorage.removeItem('totalBudget');
+    localStorage.removeItem('expenditures');
+    localStorage.removeItem('incomes');
 
     //if you want to clear the limit
     // localStorage.clear();
@@ -391,7 +391,7 @@ class App
 {
   constructor()
   {
-    this._tracker  = new CalorieTracker();
+    this._tracker  = new BudgetTracker();
     this._loadEventListeners()
     this._tracker.loadItems();
   }
@@ -399,24 +399,24 @@ class App
   _loadEventListeners()
   {
     
-    document.getElementById('meal-form')
-    .addEventListener('submit', this._newMeal.bind(this)); //with bind, we can create parameters and pass in arguments
+    document.getElementById('expenditure-form')
+    .addEventListener('submit', this._newExpenditure.bind(this)); //with bind, we can create parameters and pass in arguments
 
-    document.getElementById('workout-form')
-    .addEventListener('submit', this._newWorkout.bind(this, ));
+    document.getElementById('income-form')
+    .addEventListener('submit', this._newIncome.bind(this, ));
 
-    document.getElementById('meal-items')
-    .addEventListener('click', this._removeItem.bind(this, 'meal'));
+    document.getElementById('expenditure-items')
+    .addEventListener('click', this._removeItem.bind(this, 'expenditure'));
 
-    document.getElementById('workout-items')
-    .addEventListener('click', this._removeItem.bind(this, 'workout'));
+    document.getElementById('income-items')
+    .addEventListener('click', this._removeItem.bind(this, 'income'));
 
 
-    document.getElementById('filter-meals')
-    .addEventListener('keyup', this._filterItems.bind(this, 'meal'));
+    document.getElementById('filter-expenditures')
+    .addEventListener('keyup', this._filterItems.bind(this, 'expenditure'));
 
-    document.getElementById('filter-workouts')
-    .addEventListener('keyup', this._filterItems.bind(this, 'workout'));
+    document.getElementById('filter-incomes')
+    .addEventListener('keyup', this._filterItems.bind(this, 'income'));
 
 
     document.getElementById('reset')
@@ -427,37 +427,37 @@ class App
     .addEventListener('submit', this._setLimit.bind(this));
   }
 
-    _newMeal(e)
+    _newExpenditure(e)
     {
       e.preventDefault();
 
      
 
-      const name = document.getElementById('meal-name');
+      const name = document.getElementById('expenditure-name');
 
-      const calories = document.getElementById('meal-calories');
+      const amount = document.getElementById('expenditure-amount');
 
       //validate input
 
-      if (name.value === '' || calories.value === '')
+      if (name.value === '' || amount.value === '')
       {
         alert('Please fill ina ll fields');
         return;
       }
 
 
-      const meal = new Meal(name.value, parseInt(calories.value));
+      const expenditure = new Expenditure(name.value, parseInt(amount.value));
 
-      this._tracker.addMeal(meal);
+      this._tracker.addExpenditure(expenditure);
     
       name.value = '';
-      calories.value = '';
+      amount.value = '';
 
       //collapsing the section
 
-      const collapseMeal = document.getElementById('collapse-meal');
+      const collapseExpenditure = document.getElementById('collapse-expenditure');
 
-      const bsCollapse = new bootstrap.Collapse(collapseMeal, 
+      const bsCollapse = new bootstrap.Collapse(collapseExpenditure, 
         {
           toggle: true
         }
@@ -466,36 +466,36 @@ class App
 
 
   
-    _newWorkout(e)
+    _newIncome(e)
     {
       e.preventDefault();
 
      
 
-      const name = document.getElementById('workout-name');
+      const name = document.getElementById('income-name');
 
-      const calories = document.getElementById('workout-calories');
+      const amount = document.getElementById('income-amount');
 
       //validate input
 
-      if (name.value === '' || calories.value === '')
+      if (name.value === '' || amount.value === '')
       {
         alert('Please fill ina ll fields');
         return;
       }
 
 
-      const workout = new Workout(name.value, parseInt(calories.value));
+      const income = new Income(name.value, parseInt(amount.value));
 
-      this._tracker.addWorkout(workout);
+      this._tracker.addIncome(income);
     
       name.value = '';
-      calories.value = '';
+      amount.value = '';
 
 
-      const collapseWorkout = document.getElementById('collapse-workout');
+      const collapseIncome = document.getElementById('collapse-income');
 
-      const bsCollapse = new bootstrap.Collapse(collapseWorkout, 
+      const bsCollapse = new bootstrap.Collapse(collapseIncome, 
         {
           toggle: true
         }
@@ -511,9 +511,9 @@ class App
           const id = e.target.closest('.card').getAttribute('data-id');
           console.log(id);
 
-           type === 'meal'
-          ? this._tracker.removeMeal(id)
-          : this._tracker.removeWorkout(id);
+           type === 'expenditure'
+          ? this._tracker.removeExpenditure(id)
+          : this._tracker.removeIncome(id);
 
           const item = e.target.closest('.card');
 
@@ -546,13 +546,13 @@ class App
     _reset()
     {
       this._tracker.reset();
-      document.getElementById('meal-items').innerHTML = '';
+      document.getElementById('expenditure-items').innerHTML = '';
 
-      document.getElementById('workout-items').innerHTML = '';
+      document.getElementById('income-items').innerHTML = '';
 
-      document.getElementById('filter-meals').value = '';
+      document.getElementById('filter-expenditures').value = '';
 
-      document.getElementById('filter-workouts').value = '';
+      document.getElementById('filter-incomes').value = '';
     }
 
 
@@ -580,28 +580,28 @@ class App
 
 const app = new App()
 /*
-const tracker = new CalorieTracker();
+const tracker = new BudgetTracker();
 
-const breakfast = new Meal('Breakfast', 500);
+const breakfast = new Expenditure('Breakfast', 500);
 
-const lunch = new Meal('lunch', 5550);
-tracker.addMeal(breakfast);
-tracker.addMeal(lunch);
+const lunch = new Expenditure('lunch', 5550);
+tracker.addExpenditure(breakfast);
+tracker.addExpenditure(lunch);
 
-const run = new Workout('Morning Run', 400);
+const run = new Income('Morning Run', 400);
 
 
-tracker.addWorkout(run);
+tracker.addIncome(run);
 
-console.log(tracker._meals);
+console.log(tracker._expenditures);
 
-console.log(tracker._workouts);
+console.log(tracker._incomes);
 
-console.log(tracker._totalCalories);
+console.log(tracker._totalBudget);
 
 //console.log(Math.random()).toString(16).slice(2);
 
 
 */
 
-//Just some notes:: we add, we add, we display, we load, and then we reuse
+//Just some notes:: we add, we add, we display, we load, and then we reuse"
