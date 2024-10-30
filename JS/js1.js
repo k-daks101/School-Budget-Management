@@ -85,6 +85,7 @@ class BudgetTracker
     this.incomes = [];
     Storage.clearAll();
     this._render();
+    location.reload();
   }
 
   setLimit(budgetLimit)
@@ -182,7 +183,7 @@ class BudgetTracker
   {
     const expendituresEl = document.getElementById('expenditure-items');
     const expenditureEl = document.createElement('div');
-    expenditureEl.classList.add('card', 'my-2' );
+    expenditureEl.classList.add('card', 'my-2', 'bg-dark' );
     expenditureEl.setAttribute('data-id', expenditure.id);
     expenditureEl.innerHTML = `
     <div class="card-body">
@@ -206,7 +207,7 @@ class BudgetTracker
   {
     const incomesEl = document.getElementById('income-items');
     const incomeEl = document.createElement('div');
-    incomeEl.classList.add('card', 'my-2' );
+    incomeEl.classList.add('card', 'my-2', 'bg-dark');
     incomeEl.setAttribute('data-id', income.id);
     incomeEl.innerHTML = `
     <div class="card-body">
@@ -263,7 +264,7 @@ class BudgetTracker
 class Storage
 {
   //not static cause it is not one entity
-  static getBudgetLimit(defaultLimit = 2000)
+  static getBudgetLimit(defaultLimit = 200)
   {
     let budgetLimit;
     if(localStorage.getItem('budgetLimit') === null)
@@ -390,11 +391,21 @@ class Storage
 class App
 {
   constructor()
-  {
+  
+   {
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = 'block'; // Show spinner immediately
+
     this._tracker  = new BudgetTracker();
     this._loadEventListeners()
     this._tracker.loadItems();
+    spinner.style.display = 'none';
+
+    setTimeout(() => {
+      spinner.classList.remove('show');
+    }, 500); // Adjust delay as needed
   }
+
 
   _loadEventListeners()
   {
@@ -441,7 +452,7 @@ class App
 
       if (name.value === '' || amount.value === '')
       {
-        alert('Please fill ina ll fields');
+        alert('Please fill in all fields');
         return;
       }
 
@@ -545,6 +556,9 @@ class App
 
     _reset()
     {
+     
+
+
       this._tracker.reset();
       document.getElementById('expenditure-items').innerHTML = '';
 
@@ -603,5 +617,18 @@ console.log(tracker._totalBudget);
 
 
 */
+
+const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    spinnerWrapperEl.style.opacity = '0';
+  }, 1000);
+  
+
+  setTimeout(() => {
+    spinnerWrapperEl.style.display = 'none';
+  }, 1300);
+})
 
 //Just some notes:: we add, we add, we display, we load, and then we reuse"

@@ -1,11 +1,13 @@
+body {
+  background-color: #000000; /* Black background */
+  color: #ffffff; /* White text */
+}
+
 *,
 *::after,
 *::before {
   box-sizing: border-box;
-  font-family: "Great Vibes", cursive;
-  font-weight: 550;
-  font-style: normal;
-  font-size: 1.1rem;
+  font-family: cursive;
   }
 
 .hidden {
@@ -15,4 +17,25 @@
 #headicon {
   font-size: 3rem; /* Change icon size */
   color: #ffffff;  /* Change icon color */
+}
+
+.spinner-wrapper{
+  background-color: #000000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.spinner-border{
+  height: 60px;
+  width: 60px;
+
 }
