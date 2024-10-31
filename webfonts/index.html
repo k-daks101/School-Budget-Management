@@ -7,10 +7,6 @@
     <!-- <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
     <link 
       href="https://fonts.googleapis.com/icon?family=Material+Icons" 
       rel="stylesheet"
@@ -26,7 +22,7 @@
     <title> Maneyger 2.0 | Track your Spending with a customized budget intake</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;600&family=Sacramento&family=Dancing+Script&display=swap" rel="stylesheet">
   </head>
   <body>
     <div class="spinner-wrapper">
@@ -42,13 +38,13 @@
       <h1><i class="material-icons" id="headicon">payments</i><span style="font-family: 'Tangerine', serif; font-weight: bolder; font-size: 3.5rem;">Maneyger</span></h1>
       <div>
         <button id = "limit1"
-          class="btn btn-outline-light mx-3"
+          class="btn btn-outline-dark mx-3"
           data-bs-toggle="modal"
           data-bs-target="#limit-modal"
         >
           Set Daily Limit
         </button>
-        <button id="reset" class="btn btn-outline-light">Reset Day</button>
+        <button id="reset" class="btn btn-outline-dark">Reset Day</button>
       </div>
     </header>
 
@@ -56,7 +52,7 @@
     <section class="stats my-5 px-5">
       <div class="row g-3 my-3">
         <div class="col-md-6">
-          <div class="card text-center bg-dark text-white">
+          <div class="card text-center bg-dark text-light">
             <div class="card-body">
               <div id="budget-limit" class="fs-1 fw-bold"></div>
               <p class="fs-4">Daily Expenditure Limit</p>

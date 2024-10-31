@@ -1,3 +1,7 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Cinzel:wght@400;700&family=Futura&family=Josefin+Sans:wght@400;700&family=Pacifico&family=Playfair+Display+SC:wght@700&display=swap');
+
+
 body {
   background-color: #000000; /* Black background */
   color: #ffffff; /* White text */
@@ -7,7 +11,15 @@ body {
 *::after,
 *::before {
   box-sizing: border-box;
-  font-family: cursive;
+  font-family: Quicksand;
+  /*font-family: 'Abril Fatface', cursive;*/
+  /* font-family: 'Great Vibes',sans-serif; */
+  /*font-family: 'Tangerine', cursive;*/
+
+  font-size: 1.0rem;
+  /* font-weight: 600; */
+  /* font-family: 'Pacifico',cursive; */
+  
   }
 
 .hidden {
