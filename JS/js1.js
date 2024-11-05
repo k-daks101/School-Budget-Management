@@ -1,3 +1,16 @@
+const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    spinnerWrapperEl.style.opacity = '0';
+  }, 1000);
+  
+
+  setTimeout(() => {
+    spinnerWrapperEl.style.display = 'none';
+  }, 1300);
+})
+
 class BudgetTracker
 {
   
@@ -145,7 +158,7 @@ class BudgetTracker
 
     const progressEl = document.getElementById('budget-progress');
 
-    const balance = this._budgetLimit + this._totalBudget;
+    const balance = this._budgetLimit - (this._expenditures.reduce((total,expenditure) => total + expenditure.amount, 0));
 
     budgetBalanceEl.innerHTML = balance;
 
@@ -186,20 +199,20 @@ class BudgetTracker
     expenditureEl.classList.add('card', 'my-2', 'bg-dark' );
     expenditureEl.setAttribute('data-id', expenditure.id);
     expenditureEl.innerHTML = `
-    <div class="card-body">
-               <div class="d-flex align-items-center justify-content-between">
-                 <h4 class="mx-1">${expenditure.name}</h4>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="mx-1">${expenditure.name}</h4>
                  <div
                    class="fs-1 bg-primary text-white text-center rounded-2 px-2 px-sm-5"
                  >
                   ${expenditure.amount}
                  </div>
-                 <button class="delete btn btn-danger btn-sm mx-2">
-                   <i class="material-icons">delete</i>
-                 </button>
-               </div>
-             </div>
-   `;
+          <button class="delete btn btn-danger btn-sm mx-2">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    `;
     expendituresEl.appendChild(expenditureEl);
   }
 
@@ -210,20 +223,20 @@ class BudgetTracker
     incomeEl.classList.add('card', 'my-2', 'bg-dark');
     incomeEl.setAttribute('data-id', income.id);
     incomeEl.innerHTML = `
-    <div class="card-body">
-               <div class="d-flex align-items-center justify-content-between">
-                 <h4 class="mx-1">${income.name}</h4>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="mx-1">${income.name}</h4>
                  <div
                    class="fs-1 bg-secondary text-white text-center rounded-2 px-2 px-sm-5"
                  >
                   ${income.amount}
                  </div>
-                 <button class="delete btn btn-danger btn-sm mx-2">
-                   <i class="material-icons">delete</i>
-                 </button>
-               </div>
-             </div>
-   `;
+          <button class="delete btn btn-danger btn-sm mx-2">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    `;
     incomesEl.appendChild(incomeEl);
   }
   _render() 
@@ -618,17 +631,5 @@ console.log(tracker._totalBudget);
 
 */
 
-const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    spinnerWrapperEl.style.opacity = '0';
-  }, 1000);
-  
-
-  setTimeout(() => {
-    spinnerWrapperEl.style.display = 'none';
-  }, 1300);
-})
-
-//Just some notes:: we add, we add, we display, we load, and then we reuse"
+//Just some notes:: we add, we add, we display, we load, and then we reuse"*/
