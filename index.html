@@ -35,14 +35,14 @@
     <header
       class="bg-primary d-sm-flex justify-content-between align-items-center text-white text-center py-2 px-5"
     >
-      <h1><i class="material-icons" id="headicon">payments</i><span style="font-family: 'Nunito', serif; font-weight: bolder; font-size: 2.5rem;">Maneyger</span></h1>
+      <h1><i class="material-icons" id="headicon">payments</i><span style="font-family: 'Nunito', serif; font-weight: bolder; font-size: 2.5rem;">Maneyger™</span></h1>
       <div>
         <button id = "limit1"
           class="btn btn-outline-light mx-3"
           data-bs-toggle="modal"
           data-bs-target="#limit-modal"
         >
-          Set Daily Limit
+          Set Daily Budget
         </button>
         <button id="reset" class="btn btn-outline-light">Reset Day</button>
       </div>
@@ -55,7 +55,7 @@
           <div class="card text-center bg-dark text-light">
             <div class="card-body">
               <div id="budget-limit" class="fs-1 fw-bold"></div>
-              <p class="fs-4">Daily Expenditure Limit</p>
+              <p class="fs-4">Daily Budget Limit</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
           <div class="card text-center bg-primary text-white">
             <div class="card-body">
               <div id="budget-total" class="fs-1 fw-bold"></div>
-              <p class="fs-4">Gain/Loss</p>
+              <p  id="gain-loss-text" class="fs-4">Gain/Loss</p>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@
           <div class="card bg-dark">
             <div class="card-body">
               <div id="budget-balance" class="fs-1 fw-bold"></div>
-              <p class="fs-4">Budget balance</p>
+              <p class="fs-4">Budget Balance</p>
             </div>
           </div>
         </div>

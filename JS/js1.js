@@ -1,4 +1,15 @@
 const spinnerWrapperEl = document.querySelector('.spinner-wrapper');
+const expenditure_filter = document.getElementById('filter-expenditures');
+const income_filter = document.getElementById('filter-incomes');
+
+function updateFilterStates(inc_count, exp_count) {
+  income_filter.disabled = inc_count === 0;
+  expenditure_filter.disabled = exp_count === 0;
+}
+
+let inc_count = 0;
+let exp_count = 0;
+updateFilterStates(inc_count, exp_count);
 
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -46,6 +57,8 @@ class BudgetTracker
     Storage.saveExpenditure(expenditure);
     this._displayNewExpenditure(expenditure);
     this._render()
+    exp_count++;
+    updateFilterStates(inc_count, exp_count);
   }
 
   addIncome(income)
@@ -56,6 +69,8 @@ class BudgetTracker
     Storage.saveIncome(income);
     this._displayNewIncome(income);
     this._render();
+    inc_count++;
+    updateFilterStates(inc_count, exp_count);
   }
 
   removeExpenditure(id)
@@ -70,6 +85,8 @@ class BudgetTracker
       this._expenditures.splice(index, 1);
       Storage.removeExpenditure(id);
       this._render()
+      exp_count--;
+      updateFilterStates(inc_count, exp_count);
     }
   }
 
@@ -87,6 +104,8 @@ class BudgetTracker
       Storage.removeIncome(id)
       this._incomes.splice(index, 1);
       this._render()
+      exp_count--;
+      updateFilterStates(inc_count, exp_count);
     }
   }
 
@@ -122,7 +141,25 @@ class BudgetTracker
   _displayBudgetTotal()
   {
     const totalBudgetEl = document.getElementById('budget-total') //el for element
-    totalBudgetEl.innerHTML = this._totalBudget;
+    // totalBudgetEl.innerHTML = this._totalBudget;
+    const gainLossTextEl = document.getElementById('gain-loss-text'); // Use the ID
+
+    totalBudgetEl.textContent = this._totalBudget; // Use textContent for better performance here
+    totalBudgetEl.style.color = this._totalBudget < 0 ? 'red' : '#1A461A';
+
+    if (this._totalBudget < 0) {
+      totalBudgetEl.textContent = `-${Math.abs(this._totalBudget)}`;
+      gainLossTextEl.innerText = 'Loss';
+    } 
+    else if( this._totalBudget > 0 ){
+      totalBudgetEl.textContent = `${this._totalBudget}`;
+      gainLossTextEl.innerText = 'Gain';
+    }
+    else{
+      totalBudgetEl.textContent = `${this._totalBudget}`;
+      totalBudgetEl.style.color = 'white';
+      gainLossTextEl.innerText = 'Gain/Loss';
+    }
   }
 
 
@@ -474,6 +511,10 @@ class App
         alert('Please fill in all fields');
         return;
       }
+      if( amount.value <= 0 ){
+        alert( 'Please input an amount greater than 0' );
+        return;
+      }
 
 
       const expenditure = new Expenditure(name.value, parseInt(amount.value));
@@ -510,7 +551,11 @@ class App
 
       if (name.value === '' || amount.value === '')
       {
-        alert('Please fill ina ll fields');
+        alert('Please fill in all fields');
+        return;
+      }
+      if( amount.value <= 0 ){
+        alert( 'Please input an amount greater than 0' );
         return;
       }
 
