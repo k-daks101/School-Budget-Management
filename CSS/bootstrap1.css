@@ -2030,15 +2030,15 @@ progress {
   height: 1.5em;
 }
 .form-control::-moz-placeholder {
-  color: #fff;
+  color: grey;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #fff;
+  color: gray;
   opacity: 1;
 }
 .form-control::placeholder {
-  color: #fff;
+  color: gray;
   opacity: 1;
 }
 .form-control:disabled {

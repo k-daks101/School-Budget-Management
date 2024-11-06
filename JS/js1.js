@@ -207,9 +207,9 @@ class BudgetTracker
                  >
                   ${expenditure.amount}
                  </div>
-          <button class="delete btn btn-danger btn-sm mx-2">
-            <i class="material-icons">delete</i>
-          </button>
+                    <button class="delete btn btn-danger btn-sm mx-2">
+                      <i class="material-icons">delete</i>
+                    </button>
         </div>
       </div>
     `;
@@ -231,9 +231,9 @@ class BudgetTracker
                  >
                   ${income.amount}
                  </div>
-          <button class="delete btn btn-danger btn-sm mx-2">
-            <i class="material-icons">delete</i>
-          </button>
+                    <button class="delete btn btn-danger btn-sm mx-2">
+                      <i class="material-icons">delete</i>
+                    </button>
         </div>
       </div>
     `;
@@ -432,10 +432,12 @@ class App
     document.getElementById('expenditure-items')
     .addEventListener('click', this._removeItem.bind(this, 'expenditure'));
 
+
     document.getElementById('income-items')
     .addEventListener('click', this._removeItem.bind(this, 'income'));
 
 
+    
     document.getElementById('filter-expenditures')
     .addEventListener('keyup', this._filterItems.bind(this, 'expenditure'));
 
@@ -449,6 +451,10 @@ class App
 
     document.getElementById('limit-form')
     .addEventListener('submit', this._setLimit.bind(this));
+
+    document.querySelector('[data-bs-target="#collapse-expenditure"]').addEventListener('click', this._scrollToBottom.bind(this));
+
+    document.querySelector('[data-bs-target="#collapse-income"]').addEventListener('click', this._scrollToBottom.bind(this));
   }
 
     _newExpenditure(e)
@@ -516,7 +522,7 @@ class App
       name.value = '';
       amount.value = '';
 
-
+  
       const collapseIncome = document.getElementById('collapse-income');
 
       const bsCollapse = new bootstrap.Collapse(collapseIncome, 
@@ -526,23 +532,17 @@ class App
       )
     }
 
-    _removeItem(type, e)
-    {
-      if (e.target.classList.contains('delete') || e.target.classList.contains('fa-xmark'))
-      {
-        if (confirm('Are you sure?'))
-        {
-          const id = e.target.closest('.card').getAttribute('data-id');
-          console.log(id);
+    _removeItem(type, e) {
+      //More efficient selector, targets the closest ancestor with the card class.
+      const closestCard = e.target.closest(`#${type}-items > .card`); 
 
-           type === 'expenditure'
-          ? this._tracker.removeExpenditure(id)
-          : this._tracker.removeIncome(id);
-
-          const item = e.target.closest('.card');
-
-          e.target.closest('.card').remove();
-          //console.log('delete');
+      if (closestCard) { //Check if it's actually a card element.
+        if (confirm('Are you sure?')) {
+          const id = closestCard.dataset.id; //More efficient way to get dataset.
+          type === 'expenditure'
+            ? this._tracker.removeExpenditure(id)
+            : this._tracker.removeIncome(id);
+          closestCard.remove();
         }
       }
     }
@@ -602,6 +602,13 @@ class App
       const modalEl = document.getElementById('limit-modal');
       const modal = bootstrap.getInstance(modalEl);
       modal.hide();
+    }
+
+    _scrollToBottom() {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
     }
 }
 
