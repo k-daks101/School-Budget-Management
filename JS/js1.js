@@ -104,7 +104,7 @@ class BudgetTracker
       Storage.removeIncome(id)
       this._incomes.splice(index, 1);
       this._render()
-      exp_count--;
+      inc_count--;
       updateFilterStates(inc_count, exp_count);
     }
   }
